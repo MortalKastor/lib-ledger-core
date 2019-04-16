@@ -23,6 +23,8 @@
 [submodule "core/lib/fmt"]
     path = core/lib/fmt
     url = https://github.com/fmtlib/fmt.git
+
+# New code’s dependencies
 [submodule "ledger-core/lib/spdlog"]
     path = ledger-core/lib/spdlog
     url = https://github.com/gabime/spdlog.git
