@@ -28,6 +28,7 @@
  * SOFTWARE.
  *
  */
+
 #ifndef LEDGER_CORE_CURRENCIES_HPP
 #define LEDGER_CORE_CURRENCIES_HPP
 
@@ -75,6 +76,5 @@ namespace ledger {
         };
     }
 }
-
 
 #endif //LEDGER_CORE_CURRENCIES_HPP
