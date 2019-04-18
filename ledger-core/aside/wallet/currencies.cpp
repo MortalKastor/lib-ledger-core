@@ -28,6 +28,7 @@
  * SOFTWARE.
  *
  */
+
 #include "currencies.hpp"
 #include "bitcoin/networks.hpp"
 #include "ethereum/ethereumNetworks.hpp"
