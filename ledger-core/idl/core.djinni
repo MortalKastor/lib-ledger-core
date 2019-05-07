@@ -1,3 +1,4 @@
+@import "account.djinni"
 @import "address.djinni"
 @import "amount.djinni"
 @import "currency.djinni"
@@ -10,3 +11,4 @@
 @import "time_period.djinni"
 @import "thread_dispatcher.djinni"
 @import "trust.djinni"
+@import "wallet.djinni"
