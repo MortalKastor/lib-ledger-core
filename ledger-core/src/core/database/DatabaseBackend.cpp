@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * DatabaseBackend
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 20/12/2016.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,30 @@
  * SOFTWARE.
  *
  */
-
-#pragma once
-
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include "DatabaseBackend.hpp"
+#include "SQLite3Backend.hpp"
+#include <api/DatabaseEngine.hpp>
+#include "ProxyBackend.hpp"
 
 namespace ledger {
     namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
 
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
+        std::shared_ptr<api::DatabaseBackend> api::DatabaseBackend::getSqlite3Backend() {
+            return std::make_shared<SQLite3Backend>();
+        }
 
+        std::shared_ptr<api::DatabaseBackend> api::DatabaseBackend::createBackendFromEngine(
+                const std::shared_ptr<ledger::core::api::DatabaseEngine> &engine) {
+            return std::make_shared<ProxyBackend>(engine);
+        }
+
+        std::shared_ptr<api::DatabaseBackend> DatabaseBackend::enableQueryLogging(bool enable) {
+            _enableLogging = enable;
+            return shared_from_this();
+        }
+
+        bool DatabaseBackend::isLoggingEnabled() {
+            return _enableLogging;
         }
     }
 }

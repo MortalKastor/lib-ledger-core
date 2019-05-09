@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * LoggerApi
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 22/12/2016.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,29 @@
  * SOFTWARE.
  *
  */
+#include "LoggerApi.hpp"
 
-#pragma once
+void ledger::core::LoggerApi::d(const std::string &tag, const std::string &message) {
+    auto i = _logger.lock();
+    if (i) i->debug("[{}] {}", tag, message);
+}
 
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
+void ledger::core::LoggerApi::i(const std::string &tag, const std::string &message) {
+    auto i = _logger.lock();
+    if (i) i->info("[{}] {}", tag, message);
+}
 
-#include <api/RippleLikeNetworkParameters.hpp>
+void ledger::core::LoggerApi::e(const std::string &tag, const std::string &message) {
+    auto i = _logger.lock();
+    if (i) i->error("[{}] {}", tag, message);
+}
 
-namespace ledger {
-    namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
+void ledger::core::LoggerApi::w(const std::string &tag, const std::string &message) {
+    auto i = _logger.lock();
+    if (i) i->warn("[{}] {}", tag, message);
+}
 
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
-
-        }
-    }
+void ledger::core::LoggerApi::c(const std::string &tag, const std::string &message) {
+    auto i = _logger.lock();
+    if (i) i->critical("[{}] {}", tag, message);
 }

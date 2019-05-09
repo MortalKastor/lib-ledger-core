@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * logger
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 24/11/2016.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,34 @@
  * SOFTWARE.
  *
  */
+#ifndef LEDGER_CORE_LOGGER_HPP
+#define LEDGER_CORE_LOGGER_HPP
 
-#pragma once
-
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include <spdlog/spdlog.h>
+#include "../api/ExecutionContext.hpp"
+#include "../api/LogPrinter.hpp"
+#include "../api/PathResolver.hpp"
+#include <memory>
+#include <cstddef>
+#include "../utils/optional.hpp"
 
 namespace ledger {
     namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
-
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
-
-        }
+        class logger {
+        public:
+            static const std::size_t DEFAULT_MAX_SIZE = 5 * 1048576;
+            static std::shared_ptr<spdlog::logger> create(
+                    const std::string& name,
+                    const std::shared_ptr<api::ExecutionContext>& context,
+                    const std::shared_ptr<api::PathResolver>& resolver,
+                    const std::shared_ptr<api::LogPrinter>& printer,
+                    std::size_t maxSize = DEFAULT_MAX_SIZE,
+                    bool enabled = true
+            );
+        private:
+            logger() = delete;
+        };
     }
 }
+
+#endif //LEDGER_CORE_LOGGER_HPP

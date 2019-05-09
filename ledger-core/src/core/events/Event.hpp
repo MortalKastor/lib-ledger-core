@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * Event
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 27/04/2017.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,34 @@
  * SOFTWARE.
  *
  */
+#ifndef LEDGER_CORE_EVENT_HPP
+#define LEDGER_CORE_EVENT_HPP
 
-#pragma once
-
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include "EventPublisher.hpp"
+#include <memory>
 
 namespace ledger {
     namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
+        class Event : public api::Event {
+        public:
+            Event(api::EventCode code, const std::shared_ptr<api::DynamicObject>& payload);
+            api::EventCode getCode() override;
+            std::shared_ptr<api::DynamicObject> getPayload() override;
+            bool isSticky() override;
+            int32_t getStickyTag() override;
 
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
-
-        }
+        private:
+            friend class EventPublisher;
+            void setSticky(int32_t tag);
+        private:
+            api::EventCode _code;
+            std::shared_ptr<api::DynamicObject> _payload;
+            int32_t _tag;
+            bool _sticky;
+        };
+        std::shared_ptr<api::Event> make_event(api::EventCode code, const std::shared_ptr<api::DynamicObject>& payload);
     }
 }
+
+
+#endif //LEDGER_CORE_EVENT_HPP

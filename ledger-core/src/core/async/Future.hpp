@@ -28,24 +28,26 @@
  * SOFTWARE.
  *
  */
-#ifndef LEDGER_CORE_FUTURE_HPP
-#define LEDGER_CORE_FUTURE_HPP
+
+#pragma once
+
 #undef foreach
+
 #include <exception>
-#include <memory>
 #include <functional>
 #include <list>
-#include "Deffered.hpp"
-#include "api/ExecutionContext.hpp"
-#include "utils/Exception.hpp"
-#include "utils/ImmediateExecutionContext.hpp"
-#include "traits/callback_traits.hpp"
-#include "api/Error.hpp"
-#include "traits/shared_ptr_traits.hpp"
+#include <memory>
+
+#include <core/api/Error.hpp>
+#include <core/api/ExecutionContext.hpp>
+#include <core/async/Deffered.hpp>
+#include <core/traits/callback_traits.hpp>
+#include <core/traits/shared_ptr_traits.hpp>
+#include <core/utils/Exception.hpp>
+#include <core/utils/ImmediateExecutionContext.hpp>
 
 namespace ledger {
     namespace core {
-
         template <typename T>
         class Future {
             typedef std::shared_ptr<api::ExecutionContext> Context;
@@ -318,6 +320,3 @@ namespace ledger {
         using FuturePtr = Future<std::shared_ptr<T>>;
     }
 }
-
-
-#endif //LEDGER_CORE_FUTURE_HPP

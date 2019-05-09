@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * HttpUrlConnectionInputStream
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 15/02/2017.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,38 @@
  * SOFTWARE.
  *
  */
+#ifndef LEDGER_CORE_HTTPURLCONNECTIONINPUTSTREAM_HPP
+#define LEDGER_CORE_HTTPURLCONNECTIONINPUTSTREAM_HPP
 
-#pragma once
-
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include "../api/HttpUrlConnection.hpp"
+#include <vector>
+#include <memory>
 
 namespace ledger {
-    namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
+ namespace core {
+     class HttpUrlConnectionInputStream {
+     public:
+         typedef char Ch;
+         HttpUrlConnectionInputStream(const std::shared_ptr<api::HttpUrlConnection>& connection);
+         Ch Peek();
+         Ch Take();
+         size_t Tell() const;
+         Ch* PutBegin();
+         void Put(Ch);
+         void Flush();
+         size_t PutEnd(Ch*);
 
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
+     private:
+         inline void refill();
 
-        }
-    }
+     private:
+         std::shared_ptr<api::HttpUrlConnection> _connection;
+         std::vector<uint8_t> _buffer;
+         off_t _index;
+         off_t _offset;
+     };
+ }
 }
+
+
+#endif //LEDGER_CORE_HTTPURLCONNECTIONINPUTSTREAM_HPP

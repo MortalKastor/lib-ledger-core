@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * WebSocketClient.h
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 06/10/2017.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2017 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,38 +29,33 @@
  *
  */
 
-#pragma once
+#ifndef LEDGER_CORE_WEBSOCKETCLIENT_H
+#define LEDGER_CORE_WEBSOCKETCLIENT_H
 
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include <api/WebSocketClient.hpp>
+#include <api/WebSocketConnection.hpp>
+#include <async/Future.hpp>
 
 namespace ledger {
     namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
-
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
-
-        }
+        class WebSocketConnection;
+        enum class WebSocketEventType {
+            CONNECT,
+            RECEIVE,
+            CLOSE
+        };
+        using WebSocketEventHandler = std::function<void (WebSocketEventType,
+                                                          const std::shared_ptr<WebSocketConnection>& connection,
+                                                          const Option<std::string>& message, Option<api::ErrorCode>)>;
+        class WebSocketClient {
+        public:
+            WebSocketClient(const std::shared_ptr<api::WebSocketClient>& client);
+            FuturePtr<WebSocketConnection> connect(const std::string& url, const WebSocketEventHandler& handler);
+        private:
+            std::shared_ptr<api::WebSocketClient> _client;
+        };
     }
 }
+
+
+#endif //LEDGER_CORE_WEBSOCKETCLIENT_H

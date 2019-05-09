@@ -1,12 +1,13 @@
 /*
  *
- * rippleNetworks
+ * LambdaRunnable
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 05/01/2019.
+ * Created by Pierre Pollastri on 15/11/2016.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +28,30 @@
  * SOFTWARE.
  *
  */
+#ifndef LEDGER_CORE_LAMBDARUNNABLE_HPP
+#define LEDGER_CORE_LAMBDARUNNABLE_HPP
 
-#pragma once
-
-#ifndef LIBCORE_EXPORT
-    #if defined(_MSC_VER) && _MSC_VER <= 1900
-        #include <libcore_export.h>
-    #else
-        #define LIBCORE_EXPORT
-    #endif
-#endif
-
-#include <api/RippleLikeNetworkParameters.hpp>
+#include <functional>
+#include "../api/Runnable.hpp"
+#include <memory>
 
 namespace ledger {
     namespace core {
-        namespace networks {
-            extern LIBCORE_EXPORT const std::string RIPPLE_DIGITS;
-            extern LIBCORE_EXPORT const api::RippleLikeNetworkParameters getRippleLikeNetworkParameters(const std::string &networkName);
-            extern LIBCORE_EXPORT const std::vector<api::RippleLikeNetworkParameters> ALL_RIPPLE;
+        class LambdaRunnable : public api::Runnable {
 
-            template<class Archive>
-            void serialize(Archive & archive,
-                           api::RippleLikeNetworkParameters & p)
-            {
-                archive(
-                        p.Identifier,
-                        p.MessagePrefix,
-                        p.XPUBVersion,
-                        p.AdditionalRIPs,
-                        p.TimestampDelay
-                );
-            }
+        public:
+            LambdaRunnable(std::function<void()> func);
+            virtual void run() override;
 
-        }
+            static std::shared_ptr<api::Runnable> make(std::function<void()> func);
+
+        private:
+            std::function<void ()> _func;
+        };
+
+        std::shared_ptr<api::Runnable> make_runnable(std::function<void()> func);
     }
 }
+
+
+#endif //LEDGER_CORE_LAMBDARUNNABLE_HPP
