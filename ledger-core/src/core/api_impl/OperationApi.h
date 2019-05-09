@@ -51,15 +51,8 @@ namespace ledger {
             std::shared_ptr<api::Amount> getFees() override;
             std::shared_ptr<api::Preferences> getPreferences() override;
             std::shared_ptr<api::TrustIndicator> getTrust() override;
-            std::shared_ptr<api::BitcoinLikeOperation> asBitcoinLikeOperation() override;
-            std::shared_ptr<api::EthereumLikeOperation> asEthereumLikeOperation() override;
-            std::shared_ptr<api::RippleLikeOperation> asRippleLikeOperation() override;
             optional<int64_t> getBlockHeight() override;
-            bool isInstanceOfBitcoinLikeOperation() override;
-            bool isInstanceOfEthereumLikeOperation() override;
-            bool isInstanceOfRippleLikeOperation() override;
             bool isComplete() override;
-            api::WalletType getWalletType() override;
             ledger::core::Operation& getBackend();
             const std::shared_ptr<AbstractAccount>& getAccount() const;
 

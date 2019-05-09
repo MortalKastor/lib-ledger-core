@@ -38,13 +38,10 @@
 
 #include <core/api/Operation.hpp>
 #include <core/api/OperationType.hpp>
-#include <core/api/TrustIndicator.h>
+#include <core/api/TrustIndicator.hpp>
 #include <core/math/BigInt.h>
 #include <core/utils/Option.hpp>
 #include <core/wallet/Block.h>
-#include <wallet/bitcoin/explorers/BitcoinLikeBlockchainExplorer.hpp>
-#include <wallet/ethereum/explorers/EthereumLikeBlockchainExplorer.h>
-#include <wallet/ripple/explorers/RippleLikeBlockchainExplorer.h>
 
 namespace ledger {
     namespace core {
@@ -52,7 +49,6 @@ namespace ledger {
             std::string uid;
             std::string accountUid;
             std::string walletUid;
-            api::WalletType walletType;
             std::chrono::system_clock::time_point date;
             std::vector<std::string> senders;
             std::vector<std::string> recipients;

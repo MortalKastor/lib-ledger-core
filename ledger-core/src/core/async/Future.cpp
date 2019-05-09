@@ -1,12 +1,13 @@
 /*
  *
- * RippleLikeAccountDatabaseHelper
+ * Future
+ * ledger-core
  *
- * Created by El Khalil Bellakrid on 06/01/2019.
+ * Created by Pierre Pollastri on 18/01/2017.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2019 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,30 +28,4 @@
  * SOFTWARE.
  *
  */
-
-#pragma once
-
-#include <string>
-
-#include <soci.h>
-#include <database/RippleLikeAccountDatabaseEntry.h>
-
-namespace ledger {
-    namespace core {
-        class RippleLikeAccountDatabaseHelper {
-        public:
-            static void createAccount(
-                soci::session& sql,
-                const std::string walletUid,
-                int32_t index,
-                const std::string& address
-            );
-
-            static bool queryAccount(
-                soci::session& sql,
-                const std::string& accountUid,
-                RippleLikeAccountDatabaseEntry& entry
-            );
-        };
-    }
-}
+#include "Future.hpp"

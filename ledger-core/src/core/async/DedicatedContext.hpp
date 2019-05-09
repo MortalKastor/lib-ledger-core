@@ -28,11 +28,11 @@
  * SOFTWARE.
  *
  */
-#ifndef LEDGER_CORE_DEDICATEDCONTEXT_HPP
-#define LEDGER_CORE_DEDICATEDCONTEXT_HPP
 
-#include "api/ExecutionContext.hpp"
-#include "Future.hpp"
+#pragma once
+
+#include <core/api/ExecutionContext.hpp>
+#include <core/async/Future.hpp>
 
 namespace ledger {
     namespace core {
@@ -63,6 +63,3 @@ namespace ledger {
         };
     }
 }
-
-
-#endif //LEDGER_CORE_DEDICATEDCONTEXT_HPP
