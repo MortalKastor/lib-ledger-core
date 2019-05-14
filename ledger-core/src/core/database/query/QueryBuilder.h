@@ -35,8 +35,8 @@
 #include <soci.h>
 #include <tuple>
 
+#include <core/database/query/QueryFilter.h>
 #include <core/utils/Option.hpp>
-#include <QueryFilter.h>
 
 namespace ledger {
     namespace core {

@@ -28,13 +28,13 @@
  * SOFTWARE.
  *
  */
-#include <wallet/common/database/AccountDatabaseHelper.h>
-#include "AbstractAccount.hpp"
-#include <wallet/common/OperationQuery.h>
-#include <utils/Exception.hpp>
-#include <api/ErrorCode.hpp>
-#include <events/Event.hpp>
-#include <wallet/common/database/BlockDatabaseHelper.h>
+#include <core/api/ErrorCode.hpp>
+#include <core/events/Event.hpp>
+#include <core/utils/Exception.hpp>
+#include <core/wallet/AbstractAccount.hpp>
+#include <core/wallet/OperationQuery.h>
+#include <core/wallet/database/AccountDatabaseHelper.h>
+#include <core/wallet/database/BlockDatabaseHelper.h>
 
 namespace ledger {
     namespace core {

@@ -41,9 +41,9 @@
 #include <core/api/TimePeriod.hpp>
 #include <core/async/Future.hpp>
 #include <core/events/EventPublisher.hpp>
+#include <core/wallet/AbstractWallet.hpp>
 #include <core/wallet/Amount.h>
-#include <AbstractWallet.hpp>
-#include <OperationQuery.h>
+#include <core/wallet/OperationQuery.h>
 
 namespace ledger {
     namespace core {
@@ -84,7 +84,7 @@ namespace ledger {
             void getBalanceHistory(
                 const std::string & start,
                 const std::string & end,
-                TimePeriod period,
+                api::TimePeriod period,
                 const std::function<void(std::experimental::optional<std::vector<std::shared_ptr<api::Amount>>>, std::experimental::optional<api::Error>)> & callback
             ) override;
             virtual Future<std::vector<std::shared_ptr<api::Amount>>> getBalanceHistory(const std::string & start,
