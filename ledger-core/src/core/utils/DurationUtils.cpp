@@ -1,13 +1,13 @@
 /*
  *
- * AbstractAddress.cpp
+ * DurationUtils
  * ledger-core
  *
- * Created by Pierre Pollastri on 14/05/2018.
+ * Created by Pierre Pollastri on 01/08/2017.
  *
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Ledger
+ * Copyright (c) 2016 Ledger
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,21 +28,12 @@
  * SOFTWARE.
  *
  */
-
-#include "AbstractAddress.h"
+#include "DurationUtils.h"
 
 namespace ledger {
     namespace core {
-        AbstractAddress::AbstractAddress(const api::Currency &currency, const Option<std::string>& path)
-                : _currency(currency), _path(path) {
-        }
 
-        api::Currency AbstractAddress::getCurrency() {
-            return _currency;
-        }
 
-        optional<std::string> AbstractAddress::getDerivationPath() {
-            return _path.toOptional();
-        }
+
     }
 }
